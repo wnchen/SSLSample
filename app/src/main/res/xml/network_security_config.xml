@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+
+    <!--<base-config>-->
+        <!--<trust-anchors>-->
+            <!--<certificates src="system"/>-->
+            <!--<certificates src="user"/>-->
+        <!--</trust-anchors>-->
+    <!--</base-config>-->
+
+    <!--<debug-overrides>-->
+        <!--<trust-anchors>-->
+            <!--<certificates src="system"/>-->
+            <!--<certificates src="user"/>-->
+        <!--</trust-anchors>-->
+    <!--</debug-overrides>-->
+
+    <!--<domain-config>-->
+        <!--<domain includeSubdomains="true">publicobject.com</domain>-->
+        <!--<pin-set expiration="2038-01-01">-->
+            <!--<pin digest="SHA-256">afwiKY3RxoMmLkuRW1l7QsPZTJPwDS2pdDROQjXw8ig=</pin>-->
+            <!--&lt;!&ndash; backup pin &ndash;&gt;-->
+            <!--<pin digest="SHA-256">fwza0LRMXouZHRC8Ei+4PyuldPDcf3UKgO/04cDM1oE=</pin>-->
+        <!--</pin-set>-->
+    <!--</domain-config>-->
+
+</network-security-config>
