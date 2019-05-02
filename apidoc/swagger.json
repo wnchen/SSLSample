@@ -1,60 +1,58 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  description: "This is Usher API document for authentication and
-    account management.  More information is available at
-    [http://www.usher.com](http://www.microstrategy.com)"
-  version: "1.0"
-  title: "Usher API"
-  termsOfService: "http://www.microstrategy.com/terms/"
+  description: >-
+    This is Usher API document for authentication and account management.  More
+    information is available at
+    [http://www.usher.com](http://www.microstrategy.com)
+  version: '1.0'
+  title: Usher API
+  termsOfService: 'http://www.microstrategy.com/terms/'
   contact:
-    email: "usher@microstrategy.com"
+    email: usher@microstrategy.com
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "api.usher.com"
-#host: "localhost:9000"
-#basePath: "/v1"
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: api.usher.com
 tags:
-  - name: "user"
-    description: "Operations regarding user"
+  - name: user
+    description: Operations regarding user
     externalDocs:
-      description: "Details about user"
-      url: "http://www.microstrategy.com"
-  - name: "account"
-    description: "Operations regarding account management"
-  - name: "IoT"
-    description: "Operations regarding IoT devices"
-  - name: "system"
-    description: "System policy and configurations"
-  - name: "token"
-    description: "Token related"
-  - name: "otp"
-    description: "One-time passcode related"
-  - name: "cv"
-    description: "Connected vehicle feature enabled"
-    # - name: "message"
-    #description: "Operations related to email, SMS and mobile push notification"
+      description: Details about user
+      url: 'http://www.microstrategy.com'
+  - name: account
+    description: Operations regarding account management
+  - name: IoT
+    description: Operations regarding IoT devices
+  - name: system
+    description: System policy and configurations
+  - name: token
+    description: Token related
+  - name: otp
+    description: One-time passcode related
+  - name: cv
+    description: Connected vehicle feature enabled
 schemes:
-  - "https"
-  # This is for test only
-  - "http"
-
-
+  - https
+  - http
 paths:
   /appapi/v1/user:
     get:
       tags:
         - user
-      summary: "Verify user's existence from a mobile app"
-      description: "Verify user's existence from a mobile app.\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT, USER_NOT_FOUND)"
-      operationId: "verifyUserExistenceFromApp"
+      summary: Verify user's existence from a mobile app
+      description: |-
+        Verify user's existence from a mobile app.
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT, USER_NOT_FOUND)
+      operationId: verifyUserExistenceFromApp
       produces:
         - application/json
       parameters:
         - name: userId
           in: query
           type: string
-          description: "User id"
+          description: User id
           required: true
         - name: userIdType
           in: query
@@ -63,31 +61,31 @@ paths:
             type: string
             enum:
               - email
-          description: "User id type. If it is missing, the default is email"
+          description: 'User id type. If it is missing, the default is email'
           required: false
         - name: appId
           in: query
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device id"
+          description: Device id
           required: true
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
-          description: "Successful transaction"
+        '200':
+          description: Successful transaction
           schema:
             type: object
             properties:
@@ -96,10 +94,10 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
                 required:
@@ -109,22 +107,24 @@ paths:
                     type: string
                     description: masked mobile number
                     example: 11******23
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-
     post:
       tags:
         - user
-      summary: "User registration from a mobile app"
-      description: "User registration from a mobile app.\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN,ALREADY_EXIST)"
-      operationId: "registration"
+      summary: User registration from a mobile app
+      description: |-
+        User registration from a mobile app.
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN,ALREADY_EXIST)
+      operationId: registration
       consumes:
         - application/json
       produces:
@@ -133,7 +133,7 @@ paths:
         - name: body
           in: body
           required: true
-          description: "user reg info"
+          description: user reg info
           schema:
             type: object
             required:
@@ -151,79 +151,55 @@ paths:
               - email
               - mobile
             properties:
-              #            userId:
-              #              type: string
-              #              example:
-              #                test@example.com
-              #            userIdType:
-              #              type: string
-              #              description: "User id type. If it is missing, the default is email"
-              #              example:
-              #                email
-              #              enum:
-              #                - email
-              #                - mobile
               sid:
                 type: string
-                description: Session Id linked to a verified email or a verified mobile, this parameter is required when user need to verify email/mobile before signup.
-                example:
-                  5d13d4de-4f1d-4d38-a91f-8668639fabd7
+                description: >-
+                  Session Id linked to a verified email or a verified mobile,
+                  this parameter is required when user need to verify
+                  email/mobile before signup.
+                example: 5d13d4de-4f1d-4d38-a91f-8668639fabd7
               firstName:
                 type: string
-                example:
-                  John
+                example: John
               lastName:
                 type: string
-                example:
-                  Smith
+                example: Smith
               password:
                 type: string
-                example:
-                  Test#12345
+                example: 'Test#12345'
               street1:
                 type: string
-                example:
-                  100 Main St,
+                example: '100 Main St,'
               street2:
                 type: string
-                example:
-                  Apt 101
+                example: Apt 101
               city:
                 type: string
-                example:
-                  Spring Field
+                example: Spring Field
               state:
                 type: string
-                example:
-                  AB
+                example: AB
               country:
                 type: string
-                example:
-                  USA
+                example: USA
               zip:
                 type: string
-                example:
-                  10001
+                example: 10001
               locale:
                 type: string
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
               email:
                 type: string
-                example:
-                  test@example.com
+                example: test@example.com
               mobile:
                 type: string
-                example:
-                  9191234567
+                example: 9191234567
               userSetting:
                 type: object
                 properties:
@@ -250,8 +226,7 @@ paths:
                         example: '5555'
               tosVersion:
                 type: string
-                example:
-                  v1
+                example: v1
               tosInfo:
                 type: object
                 properties:
@@ -263,8 +238,7 @@ paths:
                     example: myMazda
               privacyPolicyVersion:
                 type: string
-                example:
-                  v1
+                example: v1
               privacyPolicyInfo:
                 type: object
                 properties:
@@ -279,48 +253,47 @@ paths:
                 properties:
                   gender:
                     type: string
-                    example:
-                      MALE
+                    example: MALE
                   birthday:
                     type: string
-                    example:
-                      1986-10-18T00:00:00Z
+                    example: '1986-10-18T00:00:00Z'
                   phone:
                     type: string
                   region:
                     type: string
-                    example:
-                      us
+                    example: us
                   userInformation:
                     type: string
-                    example:
-                      "{\"personalData\":{\"familyNameKana\":\"\",\"firstNameKana\":\"\",\"postalCode1\":\"\",\"postalCode2\":\"\",\"streetAddress1\":\"\",\"streetAddress2\":\"\",\"streetAddress3\":\"\",\"mobilePhoneNumber1\":\"\",\"mobilePhoneNumber2\":\"\",\"mobilePhoneNumber3\":\"\",\"fixPhoneNumber1\":\"\",\"fixPhoneNumber2\":\"\",\"fixPhoneNumber3\":\"\"},\"carInsuranceInformation\":{\"contractPresence\":\"\",\"insuranceCompanyName\":\"\",\"contractorName\":\"\"},\"jafEnrollmentInformation\"{\"contractPresence\":\"\",\"contractorName\":\"\",\"membershipNumber\":\"\"},\"mzPlusCardInformation\":{\"contractPresence\":\"\",\"contractorName\":\"\",\"cstomerNumber\":\"\"}}"
-
+                    example: >-
+                      {"personalData":{"familyNameKana":"","firstNameKana":"","postalCode1":"","postalCode2":"","streetAddress1":"","streetAddress2":"","streetAddress3":"","mobilePhoneNumber1":"","mobilePhoneNumber2":"","mobilePhoneNumber3":"","fixPhoneNumber1":"","fixPhoneNumber2":"","fixPhoneNumber3":""},"carInsuranceInformation":{"contractPresence":"","insuranceCompanyName":"","contractorName":""},"jafEnrollmentInformation"{"contractPresence":"","contractorName":"","membershipNumber":""},"mzPlusCardInformation":{"contractPresence":"","contractorName":"","cstomerNumber":""}}
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             $ref: '#/definitions/AuthResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
     put:
       tags:
         - user
-      summary: "User info update from a mobile app"
-      description: "User registration API called by server.\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN)"
-      operationId: "updateUserInfo from mobile app"
+      summary: User info update from a mobile app
+      description: |-
+        User registration API called by server.
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN)
+      operationId: updateUserInfo from mobile app
       security:
         - JWTAuth: []
       consumes:
@@ -331,7 +304,7 @@ paths:
         - name: body
           in: body
           required: true
-          description: "user info"
+          description: user info
           schema:
             type: object
             required:
@@ -343,64 +316,49 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  test@example.com
+                example: test@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email'
+                example: email
                 enum:
                   - email
-              #                - mobile
               firstName:
                 type: string
-                example:
-                  John
+                example: John
               lastName:
                 type: string
-                example:
-                  Smith
+                example: Smith
               street1:
                 type: string
-                example:
-                  100 Main St,
+                example: '100 Main St,'
               street2:
                 type: string
-                example:
-                  Apt 101
+                example: Apt 101
               city:
                 type: string
-                example:
-                  Spring Field
+                example: Spring Field
               state:
                 type: string
-                example:
-                  AB
+                example: AB
               country:
                 type: string
-                example:
-                  USA
+                example: USA
               zip:
                 type: string
-                example:
-                  10001
+                example: 10001
               locale:
                 type: string
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
               uid:
                 type: string
-                example:
-                  a63649a1-fbcd-4691-b0fd-50f1f094e123
+                example: a63649a1-fbcd-4691-b0fd-50f1f094e123
               userSetting:
                 type: object
                 properties:
@@ -427,8 +385,7 @@ paths:
                         example: '5555'
               tosVersion:
                 type: string
-                example:
-                  v1
+                example: v1
               tosInfo:
                 type: object
                 properties:
@@ -440,8 +397,7 @@ paths:
                     example: myMazda
               privacyPolicyVersion:
                 type: string
-                example:
-                  v1
+                example: v1
               privacyPolicyInfo:
                 type: object
                 properties:
@@ -463,94 +419,99 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
     delete:
       tags:
-        - "user"
-      summary: "Delete user from a mobile app"
-      description: "Delete user from a mobile app.\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN)"
-      operationId: "deleteUser from mobile app"
+        - user
+      summary: Delete user from a mobile app
+      description: |-
+        Delete user from a mobile app.
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN)
+      operationId: deleteUser from mobile app
       security:
         - JWTAuth: []
       produces:
-        - "application/json"
+        - application/json
       parameters:
         - name: userId
           in: query
-          description: "Email"
+          description: Email
           required: true
           type: string
-        - name: "userIdType"
-          in: "query"
-          type: "array"
-          description: "User id type. If it is missing, the default is email"
+        - name: userIdType
+          in: query
+          type: array
+          description: 'User id type. If it is missing, the default is email'
           required: false
           items:
-            type: "string"
+            type: string
             enum:
-              - "email"
+              - email
         - name: appId
           in: query
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device id"
+          description: Device id
           required: true
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
         - name: uid
           in: query
           type: string
-          description: "UID"
+          description: UID
           required: true
       responses:
-        200:
-          description: "Successful transaction"
+        '200':
+          description: Successful transaction
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
-          description: "Invalid input"
+        '400':
+          description: Invalid input
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/user/login:
-    # Should be GET in REST semantics but use POST for security
     post:
       tags:
         - user
-      summary: "User login in from a mobile app"
-      description: "User login in by providing credentials\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_CREDENTIAL,ALREADY_EXIST,USER_LOCKED)"
-      operationId: "login"
+      summary: User login in from a mobile app
+      description: |-
+        User login in by providing credentials
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_CREDENTIAL,ALREADY_EXIST,USER_LOCKED)
+      operationId: login
       consumes:
         - application/json
       produces:
@@ -559,7 +520,7 @@ paths:
         - in: body
           name: body
           required: true
-          description: credentails, app and device
+          description: 'credentails, app and device'
           schema:
             type: object
             required:
@@ -577,7 +538,7 @@ paths:
                 description: email or mobile. use email by default
               password:
                 type: string
-                description: User's password, should be encryped using the given key
+                description: 'User''s password, should be encryped using the given key'
               appId:
                 type: string
                 description: Application id of mobile app
@@ -586,14 +547,14 @@ paths:
                 description: Id of mobile device
               locale:
                 type: string
-                description: "Locale"
+                description: Locale
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             properties:
@@ -603,10 +564,10 @@ paths:
                   - OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
                 required:
@@ -622,23 +583,25 @@ paths:
                     example: d41b4c67-a284-4aea-a5f8-e81791d47abc
                   userId:
                     type: string
-                    description: "User id"
+                    description: User id
                     example: test@example.com
                   userIdType:
                     type: string
                     example: email
                   accessToken:
                     type: string
-                    description: "access token for authorization"
-                    example: eyJraWQiOiIwIiwiYWxnIjoiRVMyNTYifQ.eyJjb20ubXN0ci51c2hlci5vdHMiOiJcL290c1wvIiwic3ViIjoiTU9CSUxFOk1hemRhQXBwOmVtYWlsOnRlc3QxNTMwOTg2MDkyQGEuY29tIiwiYXVkIjpbInVzaGVyIiwia2ludGFybyJdLCJjb20ubXN0ci51c2hlci5kZXZpY2UiOiJHS0tudVJCRXFXQ0h3aEV4S1lOaGNnPT0iLCJpc3MiOiJ1c2hlciIsImV4cCI6MTUzMDk4ODY4NywiaWF0IjoxNTMwOTg2MDk1LCJqdGkiOiI2OTFhMDEyMC1iMzIyLTQxMTAtODczZC0zZmJkNjYxNDM3OWMuY2JpbHRiWmdPK2xNM1wvNXJZWW4yT1NVUFdSQVhOQmoxcUlPQWRMVHpWaG10In0.X4tjU9Nvi5Yw-9acav_hseBj-8zMvIkNS44FY37R-ikdARJyMsUUDwpbjK3doGs-bTnKlUPWrf5TvZqr8ikxeQ
+                    description: access token for authorization
+                    example: >-
+                      eyJraWQiOiIwIiwiYWxnIjoiRVMyNTYifQ.eyJjb20ubXN0ci51c2hlci5vdHMiOiJcL290c1wvIiwic3ViIjoiTU9CSUxFOk1hemRhQXBwOmVtYWlsOnRlc3QxNTMwOTg2MDkyQGEuY29tIiwiYXVkIjpbInVzaGVyIiwia2ludGFybyJdLCJjb20ubXN0ci51c2hlci5kZXZpY2UiOiJHS0tudVJCRXFXQ0h3aEV4S1lOaGNnPT0iLCJpc3MiOiJ1c2hlciIsImV4cCI6MTUzMDk4ODY4NywiaWF0IjoxNTMwOTg2MDk1LCJqdGkiOiI2OTFhMDEyMC1iMzIyLTQxMTAtODczZC0zZmJkNjYxNDM3OWMuY2JpbHRiWmdPK2xNM1wvNXJZWW4yT1NVUFdSQVhOQmoxcUlPQWRMVHpWaG10In0.X4tjU9Nvi5Yw-9acav_hseBj-8zMvIkNS44FY37R-ikdARJyMsUUDwpbjK3doGs-bTnKlUPWrf5TvZqr8ikxeQ
                   accessTokenExpirationTs:
                     type: integer
                     format: int64
                     example: 1529830451
                   refreshToken:
                     type: string
-                    description: "refresh to renew token without login"
-                    example: 691a0120-b322-4110-873d-3fbd6614379c.xyou9LRUdQPVlN4RiH1Any69/bfiqtRHMLs33SCPkV3rPTMXzSbs+CpLcejDQzU/OIthB+p1trknJEnkOeVDdNBF
+                    description: refresh to renew token without login
+                    example: >-
+                      691a0120-b322-4110-873d-3fbd6614379c.xyou9LRUdQPVlN4RiH1Any69/bfiqtRHMLs33SCPkV3rPTMXzSbs+CpLcejDQzU/OIthB+p1trknJEnkOeVDdNBF
                   refreshTokenExpirationTs:
                     type: integer
                     format: int64
@@ -649,7 +612,7 @@ paths:
                   partner2Id:
                     type: string
                     example: 25
-        400:
+        '400':
           description: Invalid request
           schema:
             properties:
@@ -662,18 +625,21 @@ paths:
               localizedMessage:
                 type: string
                 example: Username or password is incorrect
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/user/logout:
     post:
       tags:
         - user
-      summary: "User logout from a mobile app"
-      description: "Logout by user called by mobile client\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND,DEVICE_NOT_FOUND)"
-      operationId: "logout"
+      summary: User logout from a mobile app
+      description: |-
+        Logout by user called by mobile client
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND,DEVICE_NOT_FOUND)
+      operationId: logout
       security:
         - JWTAuth: []
       consumes:
@@ -696,98 +662,100 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  test@example.com
+                example: test@example.com
                 description: user id.
               userIdType:
                 type: string
-                example:
-                  email
-                description: email or mobile. Default value is 'email' if the parameter is missing.
+                example: email
+                description: >-
+                  email or mobile. Default value is 'email' if the parameter is
+                  missing.
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
                 description: Application id of mobile app
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
                 description: Id of mobile device
               uid:
                 type: string
-                example:
-                  d41b4c67-a284-4aea-a5f8-e81791d47abc
+                example: d41b4c67-a284-4aea-a5f8-e81791d47abc
                 description: usher id of user
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Authentication data
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/user/details:
     get:
       tags:
         - user
-      summary: "Get user details by usher id from a mobile app"
-      description: "Get user details by usher id from a mobile app\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN)"
-      operationId: "getUserDetailsByEmail"
+      summary: Get user details by usher id from a mobile app
+      description: |-
+        Get user details by usher id from a mobile app
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN)
+      operationId: getUserDetailsByEmail
       security:
         - JWTAuth: []
       produces:
-        - "application/json"
+        - application/json
       parameters:
         - name: userId
           in: query
-          description: "The userid that needs to be fetched data for"
+          description: The userid that needs to be fetched data for
           required: true
-          type: "string"
+          type: string
         - name: userIdType
           in: query
-          description: "The userid type that needs to be fetched data for. Default value is 'email' if the parameter is missing"
+          description: >-
+            The userid type that needs to be fetched data for. Default value is
+            'email' if the parameter is missing
           required: false
-          type: "string"
-        - name: "appId"
+          type: string
+        - name: appId
           in: query
-          description: "The Application id that needs to be fetched data for"
+          description: The Application id that needs to be fetched data for
           required: true
           type: string
-        - name: "deviceId"
-          in: "query"
-          description: "The device id that needs to be fetched data for"
+        - name: deviceId
+          in: query
+          description: The device id that needs to be fetched data for
           required: true
           type: string
-        - name: "uid"
-          in: "query"
-          description: "The uid that needs to be fetched data for"
+        - name: uid
+          in: query
+          description: The uid that needs to be fetched data for
           required: true
           type: string
         - name: locale
           in: query
-          description: "locale"
+          description: locale
           required: true
           type: string
         - name: ts
           in: query
-          description: "Unix time"
+          description: Unix time
           type: string
           required: false
       responses:
-        200:
-          description: "Successful transaction"
+        '200':
+          description: Successful transaction
           schema:
             type: object
             properties:
@@ -828,7 +796,7 @@ paths:
                     example: 15713439808
                   mobileStatus:
                     type: string
-                    example:  active
+                    example: active
                   email:
                     type: string
                     example: ztang@microstrategy.com1
@@ -913,8 +881,7 @@ paths:
                             example: '5555'
                   tosVersion:
                     type: string
-                    example:
-                      v1
+                    example: v1
                   tosInfo:
                     type: object
                     properties:
@@ -926,8 +893,7 @@ paths:
                         example: myMazda
                   privacyPolicyVersion:
                     type: string
-                    example:
-                      v1
+                    example: v1
                   privacyPolicyInfo:
                     type: object
                     properties:
@@ -942,33 +908,33 @@ paths:
                     properties:
                       gender:
                         type: string
-                        example:
-                          MALE
+                        example: MALE
                       birthday:
                         type: string
                       phone:
                         type: string
                       region:
                         type: string
-                        example:
-                          us
-        400:
+                        example: us
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/user/contactInfo:
     put:
       tags:
         - user
-      summary: "update a user's contactInfo from a mobile app"
-      description: "update a user's contactInfo from a mobile app.\nError
-              Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)"
-      operationId: "UpdateUserContactInfoFromMobile"
+      summary: update a user's contactInfo from a mobile app
+      description: |-
+        update a user's contactInfo from a mobile app.
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)
+      operationId: UpdateUserContactInfoFromMobile
       security:
         - JWTAuth: []
       produces:
@@ -995,8 +961,7 @@ paths:
                 description: email or mobile. use email by default
               uid:
                 type: string
-                example:
-                  d41b4c67-a284-4aea-a5f8-e81791d47abc
+                example: d41b4c67-a284-4aea-a5f8-e81791d47abc
               mobile:
                 type: string
                 example: 5555555555
@@ -1005,43 +970,46 @@ paths:
                 description: The session id returned from otp verification.
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
                 description: Application id of mobile app
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
                 description: Id of mobile device
               locale:
                 type: string
-                description: "Locale"
+                description: Locale
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Success
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/user/appcode:
     get:
       tags:
         - user
-      summary: "Get App code from a mobile app"
-      description: "Get App code from a mobile app\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "getAppcode"
+      summary: Get App code from a mobile app
+      description: |-
+        Get App code from a mobile app
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: getAppcode
       security:
         - JWTAuth: []
       produces:
@@ -1050,7 +1018,7 @@ paths:
         - name: userId
           in: query
           type: string
-          description: "User id"
+          description: User id
           required: true
         - name: userIdType
           in: query
@@ -1059,36 +1027,36 @@ paths:
             type: string
             enum:
               - email
-          description: "User id type. If it is missing, the default is email"
+          description: 'User id type. If it is missing, the default is email'
           required: false
         - name: uid
           in: query
-          description: "The uid that needs to be fetched data for"
+          description: The uid that needs to be fetched data for
           required: true
           type: string
         - name: appId
           in: query
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device id"
+          description: Device id
           required: true
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
-          description: "Successful transaction"
+        '200':
+          description: Successful transaction
           schema:
             type: object
             properties:
@@ -1097,10 +1065,10 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
                 properties:
@@ -1109,21 +1077,27 @@ paths:
                     example: true
                   value:
                     type: string
-                    example: "5555"
-        400:
+                    example: '5555'
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
     put:
       tags:
         - user
-      summary: "Update App code from a mobile app"
-      description: "Update App code from a mobile app\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "updateAppcode"
+      summary: Update App code from a mobile app
+      description: |-
+        Update App code from a mobile app
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: updateAppcode
       security:
         - JWTAuth: []
       consumes:
@@ -1152,55 +1126,57 @@ paths:
                 description: email or mobile. use email by default
               uid:
                 type: string
-                example:
-                  d41b4c67-a284-4aea-a5f8-e81791d47abc
+                example: d41b4c67-a284-4aea-a5f8-e81791d47abc
               enable:
                 type: boolean
                 example: true
                 description: Enable or disable Appilication PIN
               value:
                 type: string
-                example: "5555"
+                example: '5555'
                 description: The value of appcode
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
                 description: Application id of mobile app
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
                 description: Id of mobile device
               locale:
                 type: string
-                description: "Locale"
+                description: Locale
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Success
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/user/appcode/verify:
     get:
       tags:
         - user
-      summary: "Verify App code from a mobile app"
-      description: "Verify App code from a mobile app\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "verifyAppcode"
+      summary: Verify App code from a mobile app
+      description: |-
+        Verify App code from a mobile app
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: verifyAppcode
       security:
         - JWTAuth: []
       produces:
@@ -1209,7 +1185,7 @@ paths:
         - name: userId
           in: query
           type: string
-          description: "User id"
+          description: User id
           required: true
         - name: userIdType
           in: query
@@ -1218,59 +1194,64 @@ paths:
             type: string
             enum:
               - email
-          description: "User id type. If it is missing, the default is email"
+          description: 'User id type. If it is missing, the default is email'
           required: false
         - name: uid
           in: query
-          description: "The uid that needs to be fetched data for"
+          description: The uid that needs to be fetched data for
           required: true
           type: string
         - name: appcode
           in: query
-          description: "The appcode input by user"
+          description: The appcode input by user
           required: true
           type: string
         - name: appId
           in: query
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device id"
+          description: Device id
           required: true
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
-          description: "Successful transaction"
+        '200':
+          description: Successful transaction
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/otp/send:
     post:
       tags:
         - otp
-      summary: "Send an OTP from a mobile app"
-      description: "Send an one time passcode\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "sendOtp"
+      summary: Send an OTP from a mobile app
+      description: |-
+        Send an one time passcode
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: sendOtp
       security:
         - JWTAuth: []
       consumes:
@@ -1296,78 +1277,76 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  test@example.com
+                example: test@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email'
+                example: email
               recipient:
                 type: string
-                example:
-                  test@example.com
+                example: test@example.com
               recipientType:
                 type: string
-                example:
-                  email
+                example: email
                 enum:
                   - email
                   - mobile
                   - vehicle
               isFutureUpdate:
                 type: boolean
-                description: "indicate OTP used for verification before update such as updating phone number"
+                description: >-
+                  indicate OTP used for verification before update such as
+                  updating phone number
               purpose:
                 type: string
-                example:
-                  v_email
+                example: v_email
                 enum:
                   - v_email
                   - v_mobile
                   - cv_enroll
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
               uid:
                 type: string
-                example:
-                  d41b4c67-a284-4aea-a5f8-e81791d47abc
+                example: d41b4c67-a284-4aea-a5f8-e81791d47abc
               locale:
                 type: string
-                example:
-                  "en"
+                example: en
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             $ref: '#/definitions/SendOtpResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/otp/send/reg:
     post:
       tags:
         - otp
-      summary: "Send an OTP from a mobile app for registration"
-      description: "Send an one time passcode\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "sendOtpReg"
+      summary: Send an OTP from a mobile app for registration
+      description: |-
+        Send an one time passcode
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: sendOtpReg
       consumes:
         - application/json
       produces:
@@ -1389,60 +1368,59 @@ paths:
             properties:
               recipient:
                 type: string
-                example:
-                  test@example.com
+                example: test@example.com
               recipientType:
                 type: string
-                example:
-                  mobile
+                example: mobile
                 enum:
                   - email
                   - mobile
               purpose:
                 type: string
-                example:
-                  v_email
+                example: v_email
                 enum:
                   - v_email
                   - v_mobile
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
               locale:
                 type: string
-                example:
-                  "en"
+                example: en
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             $ref: '#/definitions/SendOtpResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/otp/verify:
     get:
       tags:
         - otp
-      summary: "Verify OTP from a mobile app"
-      description: "Verify OTP response from user\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "verifyOtp"
+      summary: Verify OTP from a mobile app
+      description: |-
+        Verify OTP response from user
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: verifyOtp
       security:
         - JWTAuth: []
       produces:
@@ -1451,12 +1429,14 @@ paths:
         - in: query
           name: recipient
           type: string
-          description: "Recipient linked to the session, could by a email address, a mobile number or a internalVin"
+          description: >-
+            Recipient linked to the session, could by a email address, a mobile
+            number or a internalVin
           required: true
         - in: query
           name: recipientType
           type: string
-          description: "Recipient type of the recipient"
+          description: Recipient type of the recipient
           enum:
             - mobile
             - email
@@ -1465,92 +1445,99 @@ paths:
         - in: query
           name: purpose
           type: string
-          description: "Purpose for OTP"
+          description: Purpose for OTP
           required: true
         - in: query
           name: appId
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - in: query
           name: deviceId
           type: string
-          description: "Id of mobile device"
+          description: Id of mobile device
           required: true
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
         - in: query
           name: userId
           type: string
-          description: "User id"
+          description: User id
           required: true
         - in: query
           name: userIdType
           type: string
-          description: "User id type. If it is missing, the default is email"
+          description: 'User id type. If it is missing, the default is email'
           required: false
         - in: query
           name: code
           type: string
-          description: "OTP code"
+          description: OTP code
           required: true
         - in: query
           name: uid
           type: string
-          description: "UID"
+          description: UID
           required: true
         - in: query
           name: locale
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - in: query
           name: sid
           type: string
-          description: "session id"
+          description: session id
           required: true
         - in: query
           name: isFutureUpdate
           type: boolean
-          description: "verify otp code for future update"
+          description: verify otp code for future update
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             $ref: '#/definitions/SendOtpResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-
   /appapi/v1/otp/verify/reg:
     get:
       tags:
         - otp
-      summary: "Verify OTP from a mobile app for registration or reset pwd"
-      description: "Verify OTP response from user for registration or reset pwd\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "verifyOtpReg"
+      summary: Verify OTP from a mobile app for registration or reset pwd
+      description: |-
+        Verify OTP response from user for registration or reset pwd
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: verifyOtpReg
       produces:
         - application/json
       parameters:
         - in: query
           name: recipient
           type: string
-          description: "Recipient linked to the sid, could by a email address or a mobile number. This would be a required field if server turn on recipient check switch."
+          description: >-
+            Recipient linked to the sid, could by a email address or a mobile
+            number. This would be a required field if server turn on recipient
+            check switch.
           required: false
         - in: query
           name: recipientType
           type: string
-          description: "Recipient type of the recipient"
+          description: Recipient type of the recipient
           enum:
             - mobile
             - email
@@ -1562,64 +1549,68 @@ paths:
             - v_mobile
             - 4got_pwd
           type: string
-          description: "Purpose for OTP"
+          description: Purpose for OTP
           required: true
         - in: query
           name: appId
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - in: query
           name: deviceId
           type: string
-          description: "Id of mobile device"
+          description: Id of mobile device
           required: true
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
         - in: query
           name: code
           type: string
-          description: "OTP code"
+          description: OTP code
           required: true
         - in: query
           name: locale
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - in: query
           name: sid
           type: string
-          description: "session id"
+          description: session id
           required: true
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             $ref: '#/definitions/SendOtpResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-
   /appapi/v1/otp/forgotPassword:
     post:
       tags:
-        - "otp"
-      summary: "User forgot password  from a mobile app"
-      description: "Send an one time passcode to user to reset password\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "forgotPassword"
+        - otp
+      summary: User forgot password  from a mobile app
+      description: |-
+        Send an one time passcode to user to reset password
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: forgotPassword
       consumes:
-        - "application/json"
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
         - name: body
           in: body
@@ -1637,7 +1628,7 @@ paths:
                 type: string
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
+                description: 'User id type. If it is missing, the default is email'
               recipientType:
                 type: string
               appId:
@@ -1649,7 +1640,7 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
         '200':
@@ -1684,14 +1675,17 @@ paths:
               localizedMessage:
                 type: string
                 example: locale Interal server error
-
   /appapi/v1/account/resetPassword:
     post:
       tags:
         - account
-      summary: "Reset user password from a mobile app"
-      description: "reset password when user forgot password\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,USER_NOT_FOUND)"
-      operationId: "resetPasswordFromApp"
+      summary: Reset user password from a mobile app
+      description: |-
+        reset password when user forgot password
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,USER_NOT_FOUND)
+      operationId: resetPasswordFromApp
       consumes:
         - application/json
       produces:
@@ -1718,7 +1712,7 @@ paths:
                 description: user Id
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
+                description: 'User id type. If it is missing, the default is email'
               appId:
                 type: string
                 example: application Id
@@ -1742,10 +1736,10 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             type: object
@@ -1755,10 +1749,10 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
                 required:
@@ -1770,21 +1764,24 @@ paths:
                     type: boolean
                   isPasswordHistoryPolicyMet:
                     type: boolean
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/account/changePassword:
     post:
       tags:
         - account
-      summary: "Change user password from a mobile app"
-      description: "change password\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)"
+      summary: Change user password from a mobile app
+      description: |-
+        change password
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)
       operationId: changePassword
       security:
         - JWTAuth: []
@@ -1810,33 +1807,28 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  aaa@bbb.com
+                example: aaa@bbb.com
               uid:
                 type: string
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
+                description: 'User id type. If it is missing, the default is email'
                 enum:
                   - email
-                example:
-                  email
+                example: email
               appId:
                 type: string
-                example:
-                  MyMazda
+                example: MyMazda
               deviceId:
                 type: string
-                example:
-                  uuid of device
+                example: uuid of device
               oldPassword:
                 type: string
               newPassword:
                 type: string
               locale:
                 type: string
-                example:
-                  jp
+                example: jp
                 enum:
                   - en
                   - jp
@@ -1844,10 +1836,10 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             type: object
@@ -1857,10 +1849,10 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
                 required:
@@ -1874,21 +1866,24 @@ paths:
                     type: boolean
                   isPasswordHistoryPolicyMet:
                     type: boolean
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/iot/findByEmail:
     get:
       tags:
         - IoT
-      summary: "Get IoT device information from a mobile app"
-      description: "Get IoT device information given user's email\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)"
+      summary: Get IoT device information from a mobile app
+      description: |-
+        Get IoT device information given user's email
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)
       operationId: getIotDeviceByEmailFromApp
       security:
         - JWTAuth: []
@@ -1898,44 +1893,44 @@ paths:
         - name: userId
           in: query
           type: string
-          description: "User Id, email"
+          description: 'User Id, email'
           required: true
         - name: userIdType
           in: query
           type: string
-          description: "User Id type"
+          description: User Id type
         - name: uid
           in: query
           type: string
-          description: "UID"
+          description: UID
           required: true
         - name: appId
           in: query
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device id"
+          description: Device id
           required: true
         - name: iotType
           in: query
           type: string
-          description: "IoT type, should be (vehicle) for this API"
+          description: 'IoT type, should be (vehicle) for this API'
           required: true
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: IoT device data
           schema:
             type: object
@@ -1945,41 +1940,44 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: array
                 items:
                   type: object
                   $ref: '#/definitions/Vehicle'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/iot/addToUser:
     post:
       tags:
         - IoT
-      summary: "Add a IoT device to user from a mobile app"
-      description: "Add a new IoT device using provided data\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)"
+      summary: Add a IoT device to user from a mobile app
+      description: |-
+        Add a new IoT device using provided data
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)
       operationId: addIotDeviceFromApp
       security:
         - JWTAuth: []
       consumes:
-        - "application/json"
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
         - in: body
           name: body
-          description: "The JSON object for IoT device"
+          description: The JSON object for IoT device
           required: true
           schema:
             type: object
@@ -1994,36 +1992,31 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  aaa@bbb.com
+                example: aaa@bbb.com
               uid:
                 type: string
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
+                description: 'User id type. If it is missing, the default is email'
                 enum:
                   - email
-                example:
-                  email
+                example: email
               appId:
                 type: string
-                example:
-                  MyMazda
+                example: MyMazda
               deviceId:
                 type: string
-                example:
-                  uuid of device
+                example: uuid of device
               iotId:
                 type: string
               iotType:
                 type: string
-                description: "IoT type, should be (vehicle) for this API"
+                description: 'IoT type, should be (vehicle) for this API'
               iotName:
                 type: string
               locale:
                 type: string
-                example:
-                  jp
+                example: jp
                 enum:
                   - en
                   - jp
@@ -2031,10 +2024,10 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Add IoT device to user success
           schema:
             type: object
@@ -2044,28 +2037,31 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
                 $ref: '#/definitions/Vehicle'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/iot:
     put:
       tags:
         - IoT
-      summary: "Update IoT device nickname belong to user from a mobile app"
-      description: "Add a new IoT device using provided data\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,OVER_RATE_LIMIT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)"
+      summary: Update IoT device nickname belong to user from a mobile app
+      description: |-
+        Add a new IoT device using provided data
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,OVER_RATE_LIMIT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)
       operationId: updateIotDeviceNameFromApp
       security:
         - JWTAuth: []
@@ -2076,7 +2072,7 @@ paths:
       parameters:
         - in: body
           name: body
-          description: "The JSON object for IoT device"
+          description: The JSON object for IoT device
           required: true
           schema:
             type: object
@@ -2091,37 +2087,34 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  aaa@bbb.com
+                example: aaa@bbb.com
               uid:
                 type: string
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
+                description: 'User id type. If it is missing, the default is email'
                 enum:
                   - email
-                example:
-                  email
+                example: email
               appId:
                 type: string
-                example:
-                  MyMazda
+                example: MyMazda
               deviceId:
                 type: string
-                example:
-                  uuid of device
+                example: uuid of device
               iotId:
                 type: string
               iotType:
                 type: string
-                description: "IoT type, should be (vehicle) for this API"
+                description: 'IoT type, should be (vehicle) for this API'
               iotName:
                 type: string
-                description: "Nickname of the IoT device, should be (vehicle nickname) for this API"
+                description: >-
+                  Nickname of the IoT device, should be (vehicle nickname) for
+                  this API
               locale:
                 type: string
-                example:
-                  jp
+                example: jp
                 enum:
                   - en
                   - jp
@@ -2129,10 +2122,10 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Add IoT device to user success
           schema:
             type: object
@@ -2142,188 +2135,81 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
                 $ref: '#/definitions/Vehicle'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/iot/removeFromUser:
     delete:
       tags:
         - IoT
-      summary: "Delete a IoT device from user from a mobile app"
-      description: "Delete a IoT device that links to a user\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)"
+      summary: Delete a IoT device from user from a mobile app
+      description: |-
+        Delete a IoT device that links to a user
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT,INVALID_ACCESS_TOKEN,USER_NOT_FOUND)
       operationId: deleteIotDeviceFromUserFromApp
       security:
         - JWTAuth: []
       produces:
-        - "application/json"
+        - application/json
       parameters:
-        - name: "userId"
-          in: "query"
-          type: "string"
-          description: "User id"
+        - name: userId
+          in: query
+          type: string
+          description: User id
           required: true
-        - name: "userIdType"
-          in: "query"
-          type: "string"
-          description: "User id type. If it is missing, the default is email"
+        - name: userIdType
+          in: query
+          type: string
+          description: 'User id type. If it is missing, the default is email'
           required: false
         - name: uid
           in: query
           type: string
-          description: "UID"
+          description: UID
           required: true
         - name: appId
           in: query
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device id"
+          description: Device id
           required: true
         - name: iotId
           in: query
           type: string
-          description: "IoT UUID, VIN number of vehicle"
+          description: 'IoT UUID, VIN number of vehicle'
           required: true
         - name: iotType
           in: query
           type: string
-          description: "IoT type, should be (vehicle) for this API"
+          description: 'IoT type, should be (vehicle) for this API'
           required: true
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: ts
           in: query
           type: string
-          description: "Unix time"
-          required: false
-      responses:
-        200:
-          description: Success
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                example: OK
-              reason:
-                type: string
-                example: ""
-              localizedMessage:
-                type: string
-                example: ""
-        400:
-          description: Invalid request
-          schema:
-            $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
-          description: Server error
-          schema:
-            $ref: '#/definitions/ErrorResponseInternalServerError'
-
-  /appapi/v1/system/accountPolicy:
-    get:
-      tags:
-        - system
-      summary: "Get account policy information from a mobile app"
-      description: "Get policy information, e.g., password policy\nError Code:\n500(INTERNAL_SERVER_ERROR)\n400(INVALID_INPUT)"
-      operationId: getAccountPolicy
-      produces:
-        - application/json
-      parameters:
-        - in: query
-          name: appId
-          type: string
-          description: "Application id"
-          required: true
-        - in: query
-          name: deviceId
-          type: string
-          description: "Id of mobile device"
-          required: true
-        - in: query
-          name: locale
-          type: string
-          description: "Locale"
-          required: true
-        - in: query
-          name: ts
-          type: string
-          description: "Unix time"
-          required: false
-      responses:
-        200:
-          description: account policy
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                example: OK
-              reason:
-                type: string
-                example: ""
-              localizedMessage:
-                type: string
-                example: ""
-              data:
-                $ref: '#/definitions/AccountPolicy'
-        400:
-          description: Invalid request
-          schema:
-            $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
-          description: Server error
-          schema:
-            $ref: '#/definitions/ErrorResponseInternalServerError'
-
-  /appapi/v1/system/encryptionKey:
-    get:
-      tags:
-        - system
-      summary: "Get password encryption key from a mobile app"
-      description: "Get public key to encrypt password\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT"
-      operationId: getEncryptionKey
-      produces:
-        - application/json
-      parameters:
-        - in: query
-          name: appId
-          type: string
-          description: "Application id"
-          required: true
-        - in: query
-          name: deviceId
-          type: string
-          description: "Id of mobile device"
-          required: true
-        - in: query
-          name: locale
-          type: string
-          description: "Locale"
-          required: true
-        - in: query
-          name: ts
-          type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
         '200':
@@ -2336,35 +2222,155 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
-              data:
-                $ref: '#/definitions/EncryptionKey'
-        400:
+                example: ''
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-  /appapi/v1/token/refresh :
+  /appapi/v1/system/accountPolicy:
+    get:
+      tags:
+        - system
+      summary: Get account policy information from a mobile app
+      description: |-
+        Get policy information, e.g., password policy
+        Error Code:
+        500(INTERNAL_SERVER_ERROR)
+        400(INVALID_INPUT)
+      operationId: getAccountPolicy
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: appId
+          type: string
+          description: Application id
+          required: true
+        - in: query
+          name: deviceId
+          type: string
+          description: Id of mobile device
+          required: true
+        - in: query
+          name: locale
+          type: string
+          description: Locale
+          required: true
+        - in: query
+          name: ts
+          type: string
+          description: Unix time
+          required: false
+      responses:
+        '200':
+          description: account policy
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: OK
+              reason:
+                type: string
+                example: ''
+              localizedMessage:
+                type: string
+                example: ''
+              data:
+                $ref: '#/definitions/AccountPolicy'
+        '400':
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ErrorResponseInvalidInput'
+        '500':
+          description: Server error
+          schema:
+            $ref: '#/definitions/ErrorResponseInternalServerError'
+  /appapi/v1/system/encryptionKey:
+    get:
+      tags:
+        - system
+      summary: Get password encryption key from a mobile app
+      description: |-
+        Get public key to encrypt password
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+      operationId: getEncryptionKey
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: appId
+          type: string
+          description: Application id
+          required: true
+        - in: query
+          name: deviceId
+          type: string
+          description: Id of mobile device
+          required: true
+        - in: query
+          name: locale
+          type: string
+          description: Locale
+          required: true
+        - in: query
+          name: ts
+          type: string
+          description: Unix time
+          required: false
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: OK
+              reason:
+                type: string
+                example: ''
+              localizedMessage:
+                type: string
+                example: ''
+              data:
+                $ref: '#/definitions/EncryptionKey'
+        '400':
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/ErrorResponseInvalidInput'
+        '500':
+          description: Server error
+          schema:
+            $ref: '#/definitions/ErrorResponseInternalServerError'
+  /appapi/v1/token/refresh:
     post:
       tags:
         - token
-      summary: "refresh accessToken with refresh token from a mobile app"
-      description: "refresh expired or revoked accessToken with valid refresh token\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN"
+      summary: refresh accessToken with refresh token from a mobile app
+      description: |-
+        refresh expired or revoked accessToken with valid refresh token
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
         - in: body
-          name: "body"
-          description: "The JSON object for vehicle"
+          name: body
+          description: The JSON object for vehicle
           required: true
           schema:
             type: object
@@ -2378,31 +2384,26 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  aaa@bbb.com
+                example: aaa@bbb.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
+                description: 'User id type. If it is missing, the default is email'
                 enum:
                   - email
-                example:
-                  email
+                example: email
               appId:
                 type: string
-                example:
-                  MyMazda
+                example: MyMazda
               deviceId:
                 type: string
-                example:
-                  uuid of device
+                example: uuid of device
               refreshToken:
                 type: string
               uid:
                 type: string
               locale:
                 type: string
-                example:
-                  jp
+                example: jp
                 enum:
                   - en
                   - jp
@@ -2410,10 +2411,10 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Successful transaction
           schema:
             properties:
@@ -2423,10 +2424,10 @@ paths:
                   - OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
                 required:
@@ -2441,23 +2442,25 @@ paths:
                     example: d41b4c67-a284-4aea-a5f8-e81791d47abc
                   userId:
                     type: string
-                    description: "User id"
+                    description: User id
                     example: test@example.com
                   userIdType:
                     type: string
                     example: email
                   accessToken:
                     type: string
-                    description: "access token for authorization"
-                    example: eyJraWQiOiIwIiwiYWxnIjoiRVMyNTYifQ.eyJjb20ubXN0ci51c2hlci5vdHMiOiJcL290c1wvIiwic3ViIjoiTU9CSUxFOk1hemRhQXBwOmVtYWlsOnRlc3QxNTMwOTg2MDkyQGEuY29tIiwiYXVkIjpbInVzaGVyIiwia2ludGFybyJdLCJjb20ubXN0ci51c2hlci5kZXZpY2UiOiJHS0tudVJCRXFXQ0h3aEV4S1lOaGNnPT0iLCJpc3MiOiJ1c2hlciIsImV4cCI6MTUzMDk4ODY4NywiaWF0IjoxNTMwOTg2MDk1LCJqdGkiOiI2OTFhMDEyMC1iMzIyLTQxMTAtODczZC0zZmJkNjYxNDM3OWMuY2JpbHRiWmdPK2xNM1wvNXJZWW4yT1NVUFdSQVhOQmoxcUlPQWRMVHpWaG10In0.X4tjU9Nvi5Yw-9acav_hseBj-8zMvIkNS44FY37R-ikdARJyMsUUDwpbjK3doGs-bTnKlUPWrf5TvZqr8ikxeQ
+                    description: access token for authorization
+                    example: >-
+                      eyJraWQiOiIwIiwiYWxnIjoiRVMyNTYifQ.eyJjb20ubXN0ci51c2hlci5vdHMiOiJcL290c1wvIiwic3ViIjoiTU9CSUxFOk1hemRhQXBwOmVtYWlsOnRlc3QxNTMwOTg2MDkyQGEuY29tIiwiYXVkIjpbInVzaGVyIiwia2ludGFybyJdLCJjb20ubXN0ci51c2hlci5kZXZpY2UiOiJHS0tudVJCRXFXQ0h3aEV4S1lOaGNnPT0iLCJpc3MiOiJ1c2hlciIsImV4cCI6MTUzMDk4ODY4NywiaWF0IjoxNTMwOTg2MDk1LCJqdGkiOiI2OTFhMDEyMC1iMzIyLTQxMTAtODczZC0zZmJkNjYxNDM3OWMuY2JpbHRiWmdPK2xNM1wvNXJZWW4yT1NVUFdSQVhOQmoxcUlPQWRMVHpWaG10In0.X4tjU9Nvi5Yw-9acav_hseBj-8zMvIkNS44FY37R-ikdARJyMsUUDwpbjK3doGs-bTnKlUPWrf5TvZqr8ikxeQ
                   accessTokenExpirationTs:
                     type: integer
                     format: int64
                     example: 1529830451
                   refreshToken:
                     type: string
-                    description: "refresh to renew token without login"
-                    example: 691a0120-b322-4110-873d-3fbd6614379c.xyou9LRUdQPVlN4RiH1Any69/bfiqtRHMLs33SCPkV3rPTMXzSbs+CpLcejDQzU/OIthB+p1trknJEnkOeVDdNBF
+                    description: refresh to renew token without login
+                    example: >-
+                      691a0120-b322-4110-873d-3fbd6614379c.xyou9LRUdQPVlN4RiH1Any69/bfiqtRHMLs33SCPkV3rPTMXzSbs+CpLcejDQzU/OIthB+p1trknJEnkOeVDdNBF
                   refreshTokenExpirationTs:
                     type: integer
                     format: int64
@@ -2468,22 +2471,27 @@ paths:
                   partner2Id:
                     type: string
                     example: 25
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/mobile:
     put:
       tags:
         - mobile
-      summary: "Update mobile device info from a mobile app"
-      description: "Update mobile device info, invoked by SDK\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEND\nUSER_NOT_FOUND"
-      operationId: "updateMobileInfo"
+      summary: Update mobile device info from a mobile app
+      description: |-
+        Update mobile device info, invoked by SDK
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEND
+        USER_NOT_FOUND
+      operationId: updateMobileInfo
       security:
         - ServiceAuth: []
       consumes:
@@ -2494,12 +2502,12 @@ paths:
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
         - name: body
           in: body
           required: true
-          description: "mobile device info"
+          description: mobile device info
           schema:
             type: object
             required:
@@ -2511,55 +2519,48 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  text@example.com
+                example: text@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email'
+                example: email
                 enum:
                   - email
                   - mobile
               uid:
                 type: string
-                example:
-                  a63649a1-fbcd-4691-b0fd-50f1f094e7ce
+                example: a63649a1-fbcd-4691-b0fd-50f1f094e7ce
               deviceName:
                 type: string
-                example:
-                  my iphone 7
+                example: my iphone 7
               deviceType:
                 type: string
-                description: "Type of device, e.g ios, android"
-                example:
-                  ios
+                description: 'Type of device, e.g ios, android'
+                example: ios
               deviceOsVersion:
                 type: string
-                description: "OS version of device"
-                example:
-                  iOS 11.4
+                description: OS version of device
+                example: iOS 11.4
               notificationToken:
                 type: string
-                description: "APNS notification token or GCM notification token"
+                description: APNS notification token or GCM notification token
               apnsEnv:
                 type: string
-                description: "Indicating which APNS server to use, for ios notification only. e.g. 'Production',
-              'Sandbox', the default is 'Production' if the parameter is missing."
+                description: >-
+                  Indicating which APNS server to use, for ios notification
+                  only. e.g. 'Production', 'Sandbox', the default is
+                  'Production' if the parameter is missing.
               locale:
                 type: string
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  MazdaApp
+                example: MazdaApp
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
       responses:
-        200:
+        '200':
           description: Success
           schema:
             type: object
@@ -2569,29 +2570,33 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 $ref: '#/definitions/Mobile'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/message/sendInvite:
     post:
       tags:
         - cv
-      summary: "Send invitation to another user"
-      description: "Send invitation to another user, invoked by SDK\nError
-          Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "sendInvite"
+      summary: Send invitation to another user
+      description: |-
+        Send invitation to another user, invoked by SDK
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: sendInvite
       security:
         - JWTAuth: []
       consumes:
@@ -2602,7 +2607,7 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
         - name: body
           in: body
@@ -2622,58 +2627,45 @@ paths:
             properties:
               uid:
                 type: string
-                example:
-                  a63649a1-fbcd-4691-b0fd-50f1f094e7ce
+                example: a63649a1-fbcd-4691-b0fd-50f1f094e7ce
               userId:
                 type: string
-                example:
-                  text@example.com
+                example: text@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email."
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email.'
+                example: email
                 enum:
                   - email
                   - mobile
               iotId:
                 type: string
-                example:
-                  "10001"
+                example: '10001'
               iotType:
                 type: string
-                description: "Type of iot device, e.g internalVin."
-                example:
-                  internalVin
+                description: 'Type of iot device, e.g internalVin.'
+                example: internalVin
               receiverId:
                 type: string
-                description: "Where to send the invitation, email or mobile"
-                example:
-                  recipient@example.com
+                description: 'Where to send the invitation, email or mobile'
+                example: recipient@example.com
               receiverType:
                 type: string
-                description: "email"
-                example:
-                  email
+                description: email
+                example: email
               content:
-                $ref:  '#/definitions/IotMessageContent'
+                $ref: '#/definitions/IotMessageContent'
               locale:
                 type: string
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  MazdaApp
+                example: MazdaApp
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
-
-
-
+                example: QVP0DIztG2id5m+5CZC+Xg==
       responses:
-        200:
+        '200':
           description: Success
           schema:
             type: object
@@ -2683,28 +2675,33 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 $ref: '#/definitions/Message'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/message/requestAccess:
     post:
       tags:
         - cv(disable)
-      summary: "Request for access for iot device"
-      description: "Request to be second driver\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "messageRequestAccess"
+      summary: Request for access for iot device
+      description: |-
+        Request to be second driver
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: messageRequestAccess
       security:
         - JWTAuth: []
       consumes:
@@ -2715,12 +2712,12 @@ paths:
         - in: query
           name: ts
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
         - name: body
           in: body
           required: true
-          description: "mobile device info"
+          description: mobile device info
           schema:
             type: object
             required:
@@ -2733,57 +2730,46 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  text@example.com
+                example: text@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email'
+                example: email
                 enum:
                   - email
                   - mobile
               deviceName:
                 type: string
-                example:
-                  my iphone 7
+                example: my iphone 7
               deviceType:
                 type: string
-                description: "Type of device, e.g ios, android"
-                example:
-                  ios
+                description: 'Type of device, e.g ios, android'
+                example: ios
               deviceOsVersion:
                 type: string
-                description: "OS version of device"
-                example:
-                  iOS 11.4
+                description: OS version of device
+                example: iOS 11.4
               iotId:
                 type: string
-                example:
-                  3CZRE38359G036911
+                example: 3CZRE38359G036911
               iotType:
                 type: string
-                description: "Type of iot device, e.g vehicle."
-                example:
-                  vehicle
+                description: 'Type of iot device, e.g vehicle.'
+                example: vehicle
               locale:
                 type: string
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  MazdaApp
+                example: MazdaApp
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
               uid:
                 type: string
-                example:
-                  a63649a1-fbcd-4691-b0fd-50f1f094e7ce
+                example: a63649a1-fbcd-4691-b0fd-50f1f094e7ce
       responses:
-        200:
+        '200':
           description: Success
           schema:
             type: object
@@ -2793,28 +2779,33 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 $ref: '#/definitions/IotMessage'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/messages:
     get:
       tags:
         - cv
-      summary: "Get requests received or invitations sent"
-      description: "Get requests\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "getMessages"
+      summary: Get requests received or invitations sent
+      description: |-
+        Get requests
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: getMessages
       security:
         - JWTAuth: []
       produces:
@@ -2823,64 +2814,64 @@ paths:
         - name: userId
           in: query
           type: string
-          description: "User Id, email"
+          description: 'User Id, email'
           required: true
         - name: userIdType
           in: query
           type: string
-          description: "User id type. If it is missing, the default is email"
+          description: 'User id type. If it is missing, the default is email'
           required: false
         - name: uid
           in: query
           type: string
-          description: "UID"
+          description: UID
           required: true
         - name: appId
           in: query
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device id"
+          description: Device id
           required: true
         - name: messageType
           in: query
           type: string
-          description: "Type of message, (e.g. \"send\" or \"receive\")"
+          description: 'Type of message, (e.g. "send" or "receive")'
         - name: purpose
           in: query
           type: string
-          description: "Purpose of message, (e.g. \"INVITATION\")"
+          description: 'Purpose of message, (e.g. "INVITATION")'
           required: false
         - name: status
           in: query
           type: string
-          description: "Status of message, (e.g. \"PENDING\", \"REJECT\" or \"COMPLETE\")"
+          description: 'Status of message, (e.g. "PENDING", "REJECT" or "COMPLETE")'
           required: false
         - name: iotType
           in: query
           type: string
-          description: "IoT type, could be vehicle or internalVin for this API"
+          description: 'IoT type, could be vehicle or internalVin for this API'
           required: false
         - name: iotId
           in: query
           type: string
-          description: "IoT UUID, VIN number of vehicle, or value of internalVin"
+          description: 'IoT UUID, VIN number of vehicle, or value of internalVin'
           required: false
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Success
           schema:
             type: object
@@ -2890,30 +2881,35 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: array
                 items:
                   $ref: '#/definitions/IotMessage'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/message/approveAccess:
     post:
       tags:
         - cv(disable)
-      summary: "Approve access"
-      description: "Approve access\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "approveAccess"
+      summary: Approve access
+      description: |-
+        Approve access
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: approveAccess
       security:
         - JWTAuth: []
       consumes:
@@ -2924,12 +2920,12 @@ paths:
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
         - name: body
           in: body
           required: true
-          description: "mobile device info"
+          description: mobile device info
           schema:
             type: object
             required:
@@ -2942,37 +2938,31 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  text@example.com
+                example: text@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email'
+                example: email
                 enum:
                   - email
                   - mobile
               uid:
                 type: string
-                example:
-                  a63649a1-fbcd-4691-b0fd-50f1f094e7ce
+                example: a63649a1-fbcd-4691-b0fd-50f1f094e7ce
               messageId:
                 type: string
-                description: "Message Id"
+                description: Message Id
               locale:
                 type: string
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  MazdaApp
+                example: MazdaApp
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
       responses:
-        200:
+        '200':
           description: Success
           schema:
             type: object
@@ -2982,28 +2972,33 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
   /appapi/v1/message:
     delete:
       tags:
         - cv
-      summary: "Delete Message"
-      description: "Delete Message\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "deleteRequest"
+      summary: Delete Message
+      description: |-
+        Delete Message
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: deleteRequest
       security:
         - JWTAuth: []
       produces:
@@ -3012,45 +3007,45 @@ paths:
         - name: userId
           in: query
           type: string
-          description: "User Id, email"
+          description: 'User Id, email'
           required: true
         - name: userIdType
           in: query
           type: string
-          description: "User id type. If it is missing, the default is email"
+          description: 'User id type. If it is missing, the default is email'
           required: false
         - name: uid
           in: query
           type: string
-          description: "UID"
+          description: UID
           required: true
         - name: appId
           in: query
           type: string
-          description: "Application id"
+          description: Application id
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device id"
+          description: Device id
           required: true
         - name: messageId
           in: query
           type: string
-          description: "Message Id"
+          description: Message Id
           required: true
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Success
           schema:
             type: object
@@ -3060,28 +3055,32 @@ paths:
                 example: OK
               reason:
                 type: string
-                example: ""
+                example: ''
               localizedMessage:
                 type: string
-                example: ""
+                example: ''
               data:
                 type: object
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-
   /appapi/v1/iot/transferOwnership:
     post:
       tags:
         - cv(disable)
       summary: Transfer primary ownership to a secondary owner
-      description: "Transfer ownership to a secondary owner, invoked by SDK\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUNAUTHORIZED"
+      description: |-
+        Transfer ownership to a secondary owner, invoked by SDK
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        UNAUTHORIZED
       operationId: transferOwnership
       security:
         - JWTAuth: []
@@ -3107,70 +3106,65 @@ paths:
             properties:
               userId:
                 type: string
-                example:
-                  text@example.com
+                example: text@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email'
+                example: email
                 enum:
                   - email
                   - mobile
               locale:
                 type: string
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  MazdaApp
+                example: MazdaApp
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
+                example: QVP0DIztG2id5m+5CZC+Xg==
               uid:
                 type: string
-                example:
-                  a63649a1-fbcd-4691-b0fd-50f1f094e7ce
+                example: a63649a1-fbcd-4691-b0fd-50f1f094e7ce
               iotId:
                 type: string
-                example:
-                  6515b974-354c-48d6-a8a6-dad9dfde769a
+                example: 6515b974-354c-48d6-a8a6-dad9dfde769a
               iotType:
                 type: string
-                example:
-                  vehicle
+                example: vehicle
               transferTo:
                 type: string
-                example:
-                  99f73e8a-ca78-4881-b506-a67f35dc020a
+                example: 99f73e8a-ca78-4881-b506-a67f35dc020a
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Success
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid input
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-
   /appapi/v1/iot/revokeSecondaryOwner:
     delete:
       tags:
         - cv(disable)
       summary: Primary driver remove a secondary owner
-      description: "A primary owner remove a secondary owner, invoked by SDK\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUNAUTHORIZED"
+      description: |-
+        A primary owner remove a secondary owner, invoked by SDK
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        UNAUTHORIZED
       operationId: revokeSecondaryOwner
       security:
         - JWTAuth: []
@@ -3182,32 +3176,32 @@ paths:
         - name: userId
           in: query
           type: string
-          description: "Email"
+          description: Email
           required: true
         - name: userIdType
           in: query
           type: string
-          description: "User id type. If it is missing, the default is email"
+          description: 'User id type. If it is missing, the default is email'
           required: false
         - name: locale
           in: query
           type: string
-          description: "Locale"
+          description: Locale
           required: true
         - name: appId
           in: query
           type: string
-          description: "Application ID"
+          description: Application ID
           required: true
         - name: deviceId
           in: query
           type: string
-          description: "Device Id"
+          description: Device Id
           required: true
         - name: uid
           in: query
           type: string
-          description: "UID"
+          description: UID
           required: true
         - name: iotId
           in: query
@@ -3224,30 +3218,34 @@ paths:
         - name: ts
           in: query
           type: string
-          description: "Unix time"
+          description: Unix time
           required: false
       responses:
-        200:
+        '200':
           description: Success
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid input
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-
   /appapi/v1/iot/link:
     delete:
       tags:
         - cv(disable)
-      summary: "disconnect iot device link"
-      description: "disconnect iot device\nError Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND"
-      operationId: "deleteIotLink"
+      summary: disconnect iot device link
+      description: |-
+        disconnect iot device
+        Error Code:
+        INTERNAL_SERVER_ERROR
+        INVALID_INPUT
+        INVALID_ACCESS_TOKEN
+        USER_NOT_FOUND
+      operationId: deleteIotLink
       security:
         - JWTAuth: []
       produces:
@@ -3257,73 +3255,85 @@ paths:
           in: query
           required: true
           type: string
-          description: "user uid, example a63649a1-fbcd-4691-b0fd-50f1f094e7ce"
+          description: 'user uid, example a63649a1-fbcd-4691-b0fd-50f1f094e7ce'
         - name: iotType
           in: query
           required: true
           type: string
-          description: "iotId type."
+          description: iotId type.
           enum:
             - vehicle
         - name: appId
           in: query
           required: true
           type: string
-          description: "application Id."
+          description: application Id.
         - name: deviceId
           in: query
           required: true
           type: string
-          description: "deviceId."
+          description: deviceId.
         - name: iotId
           in: query
           required: true
           type: string
-          description: "iotId. IoT identifier. example 3CZRE38359G036911"
+          description: iotId. IoT identifier. example 3CZRE38359G036911
         - name: locale
           in: query
           required: true
           type: string
-          description: "locale"
+          description: locale
         - name: partner2Id
           in: query
           required: true
           type: string
-          description: "Partner 2 id for iot link"
+          description: Partner 2 id for iot link
         - name: ts
           in: query
           required: false
           type: string
-          description: "Unix timestamp"
+          description: Unix timestamp
       responses:
-        200:
+        '200':
           description: Success
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-  #-----------------------------------------------------------------------------------------------------------------------
   /appapi/v1/message/acceptInvite:
     post:
       tags:
         - cv
-      summary: "User accept second driver invitation"
-      description: "User accept invitation, invoked by SDK\nError
-          Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND\nIOT_MESSAGE_NOT_FOUND\nINVALID_IOT_MESSAGE
-          \ncurl -X POST
-           -H  \"accept: application/json\" -H
-          \"Content-Type: application/json\" -H 'Authorization: Bearer [jwt token]' -d \"{  \"uid\":
-          \"a63649a1-fbcd-4691-b0fd-50f1f094e7ce\",  \"userId\":
-          \"[email]\",  \"userIdType\": \"email\",  \"code\": \"Le6R1bjwnr34O5jx/mQcBkdR\",  \"locale\": \"jp\" }
-          \"https://usher-endpoint.com/appapi/v1/message/acceptInvite\""
-      operationId: "acceptInvitation"
+      summary: User accept second driver invitation
+      description: >-
+        User accept invitation, invoked by SDK
+
+        Error Code:
+
+        INTERNAL_SERVER_ERROR
+
+        INVALID_INPUT
+
+        INVALID_ACCESS_TOKEN
+
+        USER_NOT_FOUND
+
+        IOT_MESSAGE_NOT_FOUND
+
+        INVALID_IOT_MESSAGE 
+
+        curl -X POST -H  "accept: application/json" -H "Content-Type:
+        application/json" -H 'Authorization: Bearer [jwt token]' -d "{  "uid":
+        "a63649a1-fbcd-4691-b0fd-50f1f094e7ce",  "userId": "[email]", 
+        "userIdType": "email",  "code": "Le6R1bjwnr34O5jx/mQcBkdR",  "locale":
+        "jp" } "https://usher-endpoint.com/appapi/v1/message/acceptInvite"
+      operationId: acceptInvitation
       security:
         - JWTAuth: []
       consumes:
@@ -3346,71 +3356,74 @@ paths:
             properties:
               uid:
                 type: string
-                example:
-                  a63649a1-fbcd-4691-b0fd-50f1f094e7ce
+                example: a63649a1-fbcd-4691-b0fd-50f1f094e7ce
               userId:
                 type: string
-                example:
-                  text@example.com
+                example: text@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email'
+                example: email
                 enum:
                   - email
                   - mobile
               code:
                 type: string
-                description: "Code that represent the invitation from getIotMessage API"
-                example:
-                  Le6R1bjwnr34O5jx/mQcBkdR
+                description: Code that represent the invitation from getIotMessage API
+                example: Le6R1bjwnr34O5jx/mQcBkdR
               locale:
                 type: string
                 enum:
                   - en
                   - jp
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
-
-
+                example: QVP0DIztG2id5m+5CZC+Xg==
       responses:
-        200:
+        '200':
           description: Success
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-  #-----------------------------------------------------------------------------------------------------------------------
   /appapi/v1/message/rejectInvite:
     post:
       tags:
         - cv
-      summary: "User reject second driver invitation"
-      description: "User reject invitation, invoked by SDK\nError
-          Code:\nINTERNAL_SERVER_ERROR\nINVALID_INPUT\nINVALID_ACCESS_TOKEN\nUSER_NOT_FOUND\nIOT_MESSAGE_NOT_FOUND\nINVALID_IOT_MESSAGE
-           \ncurl -X POST
-           -H  \"accept: application/json\" -H
-          \"Content-Type: application/json\" -H 'Authorization: Bearer [jwt token]' -d \"{  \"uid\":
-          \"a63649a1-fbcd-4691-b0fd-50f1f094e7ce\",  \"userId\":
-          \"[email]\",  \"userIdType\": \"email\",  \"code\": \"Le6R1bjwnr34O5jx/mQcBkdR\",  \"locale\": \"jp\"
-          } \"https://usher-endpoint.com/appapi/v1/message/rejectInvite\""
-      operationId: "rejectInvitation"
+      summary: User reject second driver invitation
+      description: >-
+        User reject invitation, invoked by SDK
+
+        Error Code:
+
+        INTERNAL_SERVER_ERROR
+
+        INVALID_INPUT
+
+        INVALID_ACCESS_TOKEN
+
+        USER_NOT_FOUND
+
+        IOT_MESSAGE_NOT_FOUND
+
+        INVALID_IOT_MESSAGE 
+
+        curl -X POST -H  "accept: application/json" -H "Content-Type:
+        application/json" -H 'Authorization: Bearer [jwt token]' -d "{  "uid":
+        "a63649a1-fbcd-4691-b0fd-50f1f094e7ce",  "userId": "[email]", 
+        "userIdType": "email",  "code": "Le6R1bjwnr34O5jx/mQcBkdR",  "locale":
+        "jp" } "https://usher-endpoint.com/appapi/v1/message/rejectInvite"
+      operationId: rejectInvitation
       security:
         - JWTAuth: []
       consumes:
@@ -3433,60 +3446,49 @@ paths:
             properties:
               uid:
                 type: string
-                example:
-                  a63649a1-fbcd-4691-b0fd-50f1f094e7ce
+                example: a63649a1-fbcd-4691-b0fd-50f1f094e7ce
               userId:
                 type: string
-                example:
-                  text@example.com
+                example: text@example.com
               userIdType:
                 type: string
-                description: "User id type. If it is missing, the default is email"
-                example:
-                  email
+                description: 'User id type. If it is missing, the default is email'
+                example: email
                 enum:
                   - email
                   - mobile
               code:
                 type: string
-                description: "Code received in email/phone/deeplink that represent the invitation"
-                example:
-                  Le6R1bjwnr34O5jx/mQcBkdR
+                description: >-
+                  Code received in email/phone/deeplink that represent the
+                  invitation
+                example: Le6R1bjwnr34O5jx/mQcBkdR
               locale:
                 type: string
                 enum:
                   - en
                   - jp
-                example:
-                  en
+                example: en
               appId:
                 type: string
-                example:
-                  myMazda
+                example: myMazda
               deviceId:
                 type: string
-                example:
-                  QVP0DIztG2id5m+5CZC+Xg==
-
+                example: QVP0DIztG2id5m+5CZC+Xg==
       responses:
-        200:
+        '200':
           description: Success
           schema:
             $ref: '#/definitions/SuccessResponse'
-        400:
+        '400':
           description: Invalid request
           schema:
             $ref: '#/definitions/ErrorResponseInvalidInput'
-        500:
+        '500':
           description: Server error
           schema:
             $ref: '#/definitions/ErrorResponseInternalServerError'
-
-
-
-
 definitions:
-
   User:
     type: object
     properties:
@@ -3506,16 +3508,14 @@ definitions:
         type: string
         description: User's email address
       status:
-        $ref: "#/definitions/UserStatus"
-
+        $ref: '#/definitions/UserStatus'
   Mobile:
     type: object
     properties:
       status:
         type: string
         description: Status of device
-        example:
-          ACTIVE
+        example: ACTIVE
       deviceId:
         type: string
         description: Device id
@@ -3533,10 +3533,8 @@ definitions:
         description: Application id
       deviceNotificationToken:
         type: string
-        description: Apns/GCM token, Scheme ([DEVICETYPE]-[SERVERTYPE]-[TOKEN])
-        example:
-          A-P-5b9db70655dfbf81e8da446010cb36f77ee97dfdbd0e09d208375e8d7ae9d90f
-
+        description: 'Apns/GCM token, Scheme ([DEVICETYPE]-[SERVERTYPE]-[TOKEN])'
+        example: A-P-5b9db70655dfbf81e8da446010cb36f77ee97dfdbd0e09d208375e8d7ae9d90f
   AuthResponse:
     type: object
     properties:
@@ -3550,8 +3548,7 @@ definitions:
         type: string
         description: User name
       status:
-        $ref: "#/definitions/UserStatus"
-
+        $ref: '#/definitions/UserStatus'
   SendOtpResponse:
     type: object
     properties:
@@ -3575,11 +3572,7 @@ definitions:
           sid:
             type: string
             description: session id
-
-        example:
-          "{sid : 5d13d4de-4f1d-4d38-a91f-8668639fabd7}"
-
-
+        example: '{sid : 5d13d4de-4f1d-4d38-a91f-8668639fabd7}'
   SuccessResponse:
     type: object
     properties:
@@ -3594,39 +3587,34 @@ definitions:
       localizedMessage:
         type: string
         description: localized failure message
-
-
   OtpRequest:
     type: object
     properties:
       sid:
         type: string
-        description: "Authentication Session ID"
+        description: Authentication Session ID
       challengeId:
         type: string
-        description: "Challenge ID for this OTP challenge"
+        description: Challenge ID for this OTP challenge
       mechanism:
-        $ref: "#/definitions/OtpMechanism"
+        $ref: '#/definitions/OtpMechanism'
       deviceId:
         type: string
         description: Device id or Email address
       prompt:
         type: string
         description: Prompt/challenge displayed to user
-
   VerificationResult:
     type: object
     properties:
       challengeId:
         type: string
-        description: "OTP Challenge ID"
+        description: OTP Challenge ID
       status:
-        $ref: "#/definitions/VerificationStatus"
-
+        $ref: '#/definitions/VerificationStatus'
       prompt:
         type: string
         description: Prompt/challenge displayed to user
-
   Vehicle:
     type: object
     required:
@@ -3639,13 +3627,13 @@ definitions:
         type: string
         minLength: 11
         maxLength: 17
-        description: "Vehicle's VIN"
+        description: Vehicle's VIN
       nickname:
         type: string
-        description: "Vehicle's nickname"
+        description: Vehicle's nickname
       model:
         type: string
-        description: "Vehicle's model"
+        description: Vehicle's model
       status:
         type: string
         example: ACTIVE
@@ -3663,17 +3651,15 @@ definitions:
         format: int32
         minimum: 1900
         maximum: 2100
-        description: "Vehicle's model year"
+        description: Vehicle's model year
       userRole:
         type: string
         description: User's role
-        example:
-          Driver
+        example: Driver
       userRoleUpdatedTs:
         type: string
         format: date
         description: User's role since
-
   AccountPolicy:
     type: object
     required:
@@ -3687,7 +3673,6 @@ definitions:
         $ref: '#/definitions/otpConfig'
       appcodeConfig:
         $ref: '#/definitions/appcodeConfig'
-
   PasswordPolicy:
     type: object
     required:
@@ -3703,84 +3688,90 @@ definitions:
     properties:
       minimumPasswordLength:
         type: integer
-        description: "Password's minimum length"
+        description: Password's minimum length
       maximumPasswordLength:
         type: integer
-        description: "Password's maximum length"
+        description: Password's maximum length
       requireLowercaseCharacter:
         type: boolean
-        description: "Whether password require lowercase character"
+        description: Whether password require lowercase character
       requireUppercaseCharacter:
         type: boolean
-        description: "Whether password require uppercase character"
+        description: Whether password require uppercase character
       requireAlphabeticCharacter:
         type: boolean
-        description: "Whether password require uppercase or lowercase character"
+        description: Whether password require uppercase or lowercase character
       requireNumbers:
         type: boolean
-        description: "Whether password require digit number"
+        description: Whether password require digit number
       requireSymbols:
         type: boolean
-        description: "Whether password require special symbol"
+        description: Whether password require special symbol
       allowSpecialCharacter:
         type: string
-        description: "Special characters allowed in password"
+        description: Special characters allowed in password
       maxPasswordHistory:
         type: integer
-        description: "The number of unique new passwords that have to be associated with a user account before an old password can be reused"
-
+        description: >-
+          The number of unique new passwords that have to be associated with a
+          user account before an old password can be reused
   verificationPolicy:
     type: object
     properties:
       emailVerificationNonCV:
         type: boolean
         example: false
-        description: "Whether email verification is required for a non-CV user when reset password"
+        description: >-
+          Whether email verification is required for a non-CV user when reset
+          password
       emailVerificationCV:
         type: boolean
         example: true
-        description: "Whether email verification is required for a CV user when reset password"
+        description: >-
+          Whether email verification is required for a CV user when reset
+          password
       mobileVerificationNonCV:
         type: boolean
         example: false
-        description: "Whether mobile verification is required for a non-CV user when reset password"
+        description: >-
+          Whether mobile verification is required for a non-CV user when reset
+          password
       mobileVerificationCV:
         type: boolean
         example: true
-        description: "Whether mobile verification is required for a CV user when reset password"
-
+        description: >-
+          Whether mobile verification is required for a CV user when reset
+          password
   otpConfig:
     type: object
     properties:
       sessionValidPeriod:
         type: integer
         example: 300
-        description: "The life time of an OTP session in seconds"
+        description: The life time of an OTP session in seconds
       emailOtpValidPeriod:
         type: integer
         example: 300
-        description: "The life time of an OTP sent by email in seconds"
+        description: The life time of an OTP sent by email in seconds
       mobileOtpValidPeriod:
         type: integer
         example: 300
-        description: "The life time of an OTP sent by mobile in seconds"
+        description: The life time of an OTP sent by mobile in seconds
       vehicleOtpValidPeriod:
         type: integer
         example: 300
-        description: "The life time of an OTP sent to a vehicle in seconds"
+        description: The life time of an OTP sent to a vehicle in seconds
       otpCodeLength:
         type: integer
         example: 6
-        description: "The length of an OTP code"
-
+        description: The length of an OTP code
   appcodeConfig:
     type: object
     properties:
       length:
         type: integer
         example: 4
-        description: "The length of App code"
-
+        description: The length of App code
   EncryptionKey:
     type: object
     description: Public password encryption key
@@ -3792,29 +3783,26 @@ definitions:
     properties:
       versionPrefix:
         type: string
-        example: "p-0-"
+        example: p-0-
       publicKey:
         type: string
       keyType:
         type: string
-        example: "RSA"
+        example: RSA
       encryptionAlgorithm:
         type: string
-        example: "RSA/ECB/PKCS1Padding"
-
+        example: RSA/ECB/PKCS1Padding
   ErrorResponse:
     type: object
     properties:
       code:
-        $ref: "#/definitions/ErrorCode"
+        $ref: '#/definitions/ErrorCode'
       localizedMessage:
         type: string
         description: A localized message that can be displayed in UI
       reason:
         type: string
         description: text explains the reason of the failure
-
-
   ErrorResponseInvalidInput:
     type: object
     properties:
@@ -3833,7 +3821,6 @@ definitions:
         description: A localized message that can be displayed in UI
         enum:
           - Invalid input parameter
-
   ErrorResponseInternalServerError:
     type: object
     properties:
@@ -3852,7 +3839,6 @@ definitions:
         description: A localized message that can be displayed in UI
         enum:
           - Internal server error
-
   ErrorResponseDeviceNotFound:
     type: object
     properties:
@@ -3871,7 +3857,6 @@ definitions:
         description: A localized message that can be displayed in UI
         enum:
           - Device not found
-
   OtpMechanism:
     type: string
     description: One-time Password scheme or device type
@@ -3881,7 +3866,6 @@ definitions:
       - EMAIL
       - PHONE
       - SECURID
-
   ErrorCode:
     type: string
     description: Error code
@@ -3890,15 +3874,13 @@ definitions:
       - INVALID_INPUT
       - DATABASE_ERROR
       - ERROR
-
   UserStatus:
     type: string
-    description: "User account status"
+    description: User account status
     enum:
       - ACTIVE
       - SUSPENDED
       - DELETED
-
   VerificationStatus:
     type: string
     description: OTP or Email verification status
@@ -3907,14 +3889,12 @@ definitions:
       - INVALID
       - DUPLICATE
       - EXPIRED
-
   Message:
     type: object
     properties:
       messageId:
         type: string
-        description: "Invitation message Id"
-
+        description: Invitation message Id
   IotMessage:
     type: object
     required:
@@ -3932,64 +3912,65 @@ definitions:
     properties:
       messageId:
         type: string
-        description: "Message Id"
+        description: Message Id
       messageType:
         type: string
-        description: "Message type, e.g send(message is sent out by user), receive(message is sent to user) or self(message is sent to user by him/herself)\n
-            1)Fields only includes for 'send': receiverId, receiverType\n
-            2)Fields only includes for 'receive': senderFirstName, senderLastName, senderEmail, senderMobile"
+        description: >-
+          Message type, e.g send(message is sent out by user), receive(message
+          is sent to user) or self(message is sent to user by him/herself)
+           1)Fields only includes for 'send': receiverId, receiverType
+           2)Fields only includes for 'receive': senderFirstName, senderLastName, senderEmail, senderMobile
       content:
         $ref: '#/definitions/IotMessageContent'
       createdTs:
         type: string
-        description: "Message created time"
+        description: Message created time
       updateTs:
         type: string
-        description: "Message update time"
+        description: Message update time
       expiredTs:
         type: string
-        description: "Message expired time"
+        description: Message expired time
       isExpired:
         type: boolean
-        description: "Whether the message is expired or not"
+        description: Whether the message is expired or not
       iotId:
         type: string
-        description: "IoT Id, e.g. VIN number or Internal Vin"
+        description: 'IoT Id, e.g. VIN number or Internal Vin'
       iotType:
         type: string
-        description: "Type of IoT, e.g \"vehicle\""
+        description: 'Type of IoT, e.g "vehicle"'
       purpose:
         type: string
-        description: "Purpose of message, e.g. INVITATION\n
-            1)Fields only includes for 'INVITATION': code, codeExpiredTs, expiredTs, isExpired"
+        description: |-
+          Purpose of message, e.g. INVITATION
+           1)Fields only includes for 'INVITATION': code, codeExpiredTs, expiredTs, isExpired
       code:
         type: string
-        description: "Invitation code"
+        description: Invitation code
       codeExpiredTs:
         type: string
-        description: "Expired date for the code"
+        description: Expired date for the code
       receiverId:
         type: string
-        description: "The recipient to whom the message is sent out"
+        description: The recipient to whom the message is sent out
       receiverType:
         type: string
-        description: "Type of recipient, e.g email or mobile"
-
+        description: 'Type of recipient, e.g email or mobile'
       senderFirstName:
         type: string
-        description: "First name of the sender"
+        description: First name of the sender
       senderLastName:
         type: string
-        description: "Last name of the sender"
+        description: Last name of the sender
       senderEmail:
         type: string
-        description: "Email address of the sender"
+        description: Email address of the sender
       senderMobile:
         type: string
-        description: "Mobile number of the sender"
-
+        description: Mobile number of the sender
   IotMessageContent:
-    description: JSON object with customized field, the following are several examples.
+    description: 'JSON object with customized field, the following are several examples.'
     properties:
       receiverFirstName:
         type: string
@@ -4010,8 +3991,9 @@ definitions:
       availableService:
         type: string
         example: eyJpc0RyaXZlciI6dHJ1ZSwiaXNBZG1pbiI6ZmFsc2V9
-        description: Base64 encode string needed from Kintaro API, just pass through from APP side
-
+        description: >-
+          Base64 encode string needed from Kintaro API, just pass through from
+          APP side
 securityDefinitions:
   ServiceAuth:
     type: apiKey
