@@ -816,6 +816,8 @@ paths:
                   - emailVerified
                   - emailStatus
                   - mobileStatus
+                  - lastSuccessLoginTs
+                  - createdTs
                 properties:
                   status:
                     type: string
@@ -872,6 +874,12 @@ paths:
                     type: boolean
                     example: true
                   updatedTs:
+                    type: integer
+                    example: 1555955959
+                  lastSuccessLoginTs:
+                    type: integer
+                    example: 1555955959
+                  createdTs:
                     type: integer
                     example: 1555955959
                   state:
@@ -1104,7 +1112,7 @@ paths:
               data:
                 type: object
                 properties:
-                  enabled:
+                  enable:
                     type: boolean
                     example: true
                   value:
@@ -1139,7 +1147,7 @@ paths:
             required:
               - userId
               - uid
-              - enabled
+              - enable
               - locale
               - appId
               - deviceId
@@ -1154,7 +1162,7 @@ paths:
                 type: string
                 example:
                   d41b4c67-a284-4aea-a5f8-e81791d47abc
-              enabled:
+              enable:
                 type: boolean
                 example: true
                 description: Enable or disable Appilication PIN
