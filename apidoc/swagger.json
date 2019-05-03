@@ -906,9 +906,9 @@ paths:
                       appcode:
                         type: object
                         required:
-                          - enable
+                          - enabled
                         properties:
-                          enable:
+                          enabled:
                             type: boolean
                             example: true
                           value:
