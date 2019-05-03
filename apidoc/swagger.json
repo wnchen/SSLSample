@@ -649,6 +649,9 @@ paths:
                   partner2Id:
                     type: string
                     example: 25
+                  loginWithTemporaryPassword:
+                    type: boolean
+                    example: true
         400:
           description: Invalid request
           schema:
