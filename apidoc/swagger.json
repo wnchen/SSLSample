@@ -1104,7 +1104,7 @@ paths:
               data:
                 type: object
                 properties:
-                  enable:
+                  enabled:
                     type: boolean
                     example: true
                   value:
@@ -1139,7 +1139,7 @@ paths:
             required:
               - userId
               - uid
-              - enable
+              - enabled
               - locale
               - appId
               - deviceId
@@ -1154,7 +1154,7 @@ paths:
                 type: string
                 example:
                   d41b4c67-a284-4aea-a5f8-e81791d47abc
-              enable:
+              enabled:
                 type: boolean
                 example: true
                 description: Enable or disable Appilication PIN
