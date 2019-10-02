@@ -807,18 +807,8 @@ paths:
                 type: object
                 required:
                   - lastName
-                  - status
-                  - origin
-                  - mobileVerified
-                  - updatedTs
-                  - uid
                   - email
-                  - mobile
-                  - selfRegistered
                   - firstName
-                  - emailVerified
-                  - emailStatus
-                  - mobileStatus
                 properties:
                   status:
                     type: string
